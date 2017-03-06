@@ -5,13 +5,15 @@
 #include <QKeyEvent>
 #include <QToolButton>
 #include <QPushButton>
-class KeyEnterReceiver : public QObject
+#include "keyreceiver.h"
+class KeyReceiver : public QObject
 {
     Q_OBJECT
 public:
-    explicit KeyEnterReceiver(QObject *parent = 0);
+    explicit KeyReceiver(QObject *parent = 0,QVector<QToolButton*> *buttons=nullptr);
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
+    QVector<QToolButton*> buttons;
 signals:
 
 public slots:

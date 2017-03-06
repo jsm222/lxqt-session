@@ -26,7 +26,7 @@
  * END_COMMON_COPYRIGHT_HEADER */
 
 #include "leavedialog.h"
-#include "keyenterreceiver.h"
+
 LeaveDialog::LeaveDialog(QWidget* parent)
     : QDialog(parent, Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::CustomizeWindowHint),
     ui(new Ui::LeaveDialog),
@@ -57,12 +57,11 @@ LeaveDialog::LeaveDialog(QWidget* parent)
      */
     QVector<QToolButton*> buttons(6);
     buttons[0] = ui->logoutButton;
-    buttons[1] = ui->lockscreenButton;
+    buttons[1] = ui->shutdownButton;
     buttons[2] = ui->suspendButton;
-    buttons[3] = ui->hibernateButton;
+    buttons[3] = ui->lockscreenButton;
     buttons[4] = ui->rebootButton;
-    buttons[5] = ui->shutdownButton;
-
+    buttons[5] = ui->hibernateButton;
     int maxWidth = 0;
     const int N = buttons.size();
     for (int i = 0; i < N; ++i) {
@@ -70,7 +69,7 @@ LeaveDialog::LeaveDialog(QWidget* parent)
         buttons.at(i)->adjustSize();
         maxWidth = qMax(maxWidth, buttons.at(i)->width());
     }
-    KeyEnterReceiver* key = new KeyEnterReceiver();
+    key = new KeyReceiver(0,&buttons);
 
     for (int i = 0; i < N; ++i) {
         buttons.at(i)->setMinimumWidth(maxWidth);
@@ -94,6 +93,7 @@ LeaveDialog::LeaveDialog(QWidget* parent)
 
 LeaveDialog::~LeaveDialog()
 {
+    delete key;
     delete ui;
 }
 
